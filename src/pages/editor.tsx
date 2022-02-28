@@ -5,7 +5,7 @@ import * as ReactMarkdown from 'react-markdown';
 import { putMemo } from '../indexeddb/memos';
 import { Button } from '../components/button';
 import { SaveModal } from '../components/save_modal';
-
+import { Link } from 'react-router-dom';
 const { useState } = React;
 const Header = styled.header`
   align-content: center;
@@ -65,6 +65,7 @@ export const Editor: React.FC = () => {
         Markdown Editor
         <HeaderControl>
           <Button onClick={() => setShowModal(true)}>保存する</Button>
+          <Link to='/history'>履歴を見る</Link>
         </HeaderControl>
       </Header>
       <Wrapper>
