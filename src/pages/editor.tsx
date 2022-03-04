@@ -7,7 +7,9 @@ import { Button } from '../components/button';
 import { SaveModal } from '../components/save_modal';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/header';
-const { useState } = React;
+import TestWorker from 'worker-loader!../worker/test.ts';
+const testWorker = new TestWorker();
+const { useState, useEffect } = React;
 
 const HeaderArea = styled.div`
   position: fixed;
@@ -53,6 +55,14 @@ interface Props {
 export const Editor: React.FC<Props> = (props) => {
   const { text, setText } = props;
   const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    testWorker.onmessage = (event) => {
+      console.log('Main thread Recieved:', event.data);
+    };
+  }, []);
+  useEffect(() => {
+    testWorker.postMessage(text);
+  }, [text]);
   return (
     <React.Fragment>
       <HeaderArea>
